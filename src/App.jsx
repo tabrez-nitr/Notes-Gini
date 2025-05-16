@@ -1,14 +1,18 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+
+
+import NoteEditor from './components/NoteEditor'
 
 function App() {
   
 
   return (
     <div>
-      <h1 className='text-4xl '>Notes Gini</h1>
+      <h1 className='text-4xl text-center'style={{
+        fontFamily: "sans-serif"
+      }}>Notes&nbsp;<span className='text-[90px]' style={{
+        fontFamily :'Brush Script MT'
+      }}>Gini</span></h1>
+      <NoteEditor />
     </div>
   )
 }
