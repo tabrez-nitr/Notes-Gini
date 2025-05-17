@@ -19,6 +19,7 @@ body{
   display: flex;
   justify-content: center;
   margin : 15px;
+  background-color: #0C1C2C;
 }
 
 input,
@@ -27,6 +28,6 @@ button,
 select {
   outline: none;
   box-shadow: none;
-  border: none;
+  
   background: none;
 }
