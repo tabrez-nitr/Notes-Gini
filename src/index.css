@@ -16,10 +16,15 @@
 }
 
 body{
-  display: flex;
-  justify-content: center;
+ 
   margin : 15px;
-  background-color: #0C1C2C;
+    
+  min-height: 100vh;
+  background: linear-gradient(180deg, #0f2027, #203a43, #2c5364); /* Smooth dark gradient */
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: white;
 }
 
 input,
