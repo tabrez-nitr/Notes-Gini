@@ -9,10 +9,13 @@ import { useNotes } from '../context/NotesContext';
 
 
 
+
 const RichTextEditor = ({ content, onChange }) => {
 
 const [title , setTitle] = useState('');
 const [ editorContent , setEditorContent] = useState('');
+//firebase hook 
+ 
 
 //hook variable
 const notes = useNotes();
@@ -116,8 +119,6 @@ const notes = useNotes();
          type='button'
           onClick={()=>{
             notes.addNote(title , editorContent)
-           
-
             editor.commands.clearContent();
             setTitle('')
             setEditorContent('')

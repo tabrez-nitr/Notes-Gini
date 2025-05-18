@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 
+
 const firebaseConfig = {
   apiKey: "AIzaSyDanqMwYWIYZzfcxXQjZP9d-xViyYy3l74",
   authDomain: "notesgini.firebaseapp.com",
@@ -11,4 +12,4 @@ const firebaseConfig = {
 };
 
 
-const app = initializeApp(firebaseConfig);
+export const app = initializeApp(firebaseConfig);
