@@ -22,12 +22,19 @@ export const NotesContextProvider = ({ children }) => {
         },
         ...prevState
     ] ))
+    
+    }
     console.log(notes)
+    const deleteNotes = (id) =>{
+        console.log("delete function called")
+        setNotes(notes.filter(note => note.id !== id))
    }
+   
+   
     
 
     return(
-        <NotesContext.Provider value={{addNote,notes,setNotes}} >
+        <NotesContext.Provider value={{addNote,notes,setNotes, deleteNotes}} >
             {children}
         </NotesContext.Provider>
     )

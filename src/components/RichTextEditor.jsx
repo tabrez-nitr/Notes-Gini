@@ -5,6 +5,7 @@ import Placeholder from '@tiptap/extension-placeholder';
 import Underline from '@tiptap/extension-underline';
 import { useState } from 'react';
 import { useNotes } from '../context/NotesContext';
+import { showSuccessToast } from "../lib/toast"; 
 
 
 
@@ -45,7 +46,7 @@ const notes = useNotes();
       {/* title input field */}
      <input type="text"
     placeholder='Title'
-    className='text-3xl font-bold p-3 text-white/70   min-w-[37vw]' 
+    className='text-3xl font-bold p-3 text-white/70   min-w-[37vw] ' 
     value={title}
     onChange={(e) => setTitle(e.target.value)}
     />
@@ -56,7 +57,7 @@ const notes = useNotes();
       
 
       {/* ✏️ Editor */}
-      <EditorContent editor={editor} className="max-h-[150px] min-h-[50px] overflow-y-auto text-white/75 " />
+      <EditorContent editor={editor} className="max-h-[150px] min-h-[50px] max-w-[37vw] overflow-y-auto text-white/75 " />
       {/* ✨ Toolbar */}
       <div className='flex justify-between'>
       <div className="flex gap-2">
