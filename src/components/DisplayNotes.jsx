@@ -1,11 +1,42 @@
 import React, { useState } from 'react';
 import { useNotes } from '../context/NotesContext';
+import { GoogleGenAI } from "@google/genai";
+
+const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY });
 
 function DisplayNotes() {
+  
+  const [summaryId , setSummaryId] = useState(null);
+  const [summary , setSummary ] = useState("");
+
   const { deleteNotes, notes, updateNote } = useNotes();
   const [isEditableId, setIsEditableId] = useState(null); // currently editing note ID
   const [editTitle, setEditTitle] = useState(""); // editing title
   const [editContent, setEditContent] = useState(""); // editing content
+  
+  const summarizeNote = async(content, noteId) => {
+       // if statment is for toggle 
+       if(noteId === summaryId)
+       {
+          setSummaryId(null);
+          setSummary("");
+          return;
+       }
+    try{
+    const result = await ai.models.generateContent({
+    model: "gemini-2.0-flash",
+    contents: `Summarize this note : ${content}`,
+    
+  });
+     const summaryContent = await result.text;
+     console.log(summary);
+     setSummary(summaryContent)
+     setSummaryId(noteId);
+    }
+    catch(error){
+       console.error(error);
+    }
+  }
 
   const deleteNote = (id) => {
     deleteNotes(id);
@@ -64,6 +95,15 @@ function DisplayNotes() {
 
               {/* 🔘 Buttons */}
               <br />
+
+              {summaryId === note.id && summary && (
+                <div className='pb-4'>
+
+                  <h2 className='border-t-1 border-white/20 pt-2 pb-2  text-[18px] text-white/90'>Summary</h2>
+                  
+                  <p className=' text-[15px] text-white/80 bg-[#282828] p-2.5'>{summary}</p>
+                </div>
+              )}
               <div className='flex gap-2 mt-auto'>
                 <button
                   type="button"
@@ -89,6 +129,10 @@ function DisplayNotes() {
                 >
                   Delete
                 </button>
+                <button className='border-1 p-1 border-white/50 hover:opacity-50'
+                 onClick={() => summarizeNote(stripHtmlTags(note.content),note.id)} >
+                  {summaryId === note.id ? "Hide Summary" : "Summary" }
+                 </button>
               </div>
             </div>
           );
