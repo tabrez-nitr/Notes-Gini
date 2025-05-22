@@ -52,21 +52,33 @@ function DisplayNotes() {
   return (
     <div className='m-5 ml-20 mr-20'>
       <h2 className='mt-2 mb-4 text-white text-2xl'>Your Notes</h2>
-      <div className='flex flex-wrap gap-4'>
+      <div 
+        className="masonry-container"
+        style={{
+          columnCount: 'auto',
+          columnWidth: '300px',
+          columnGap: '16px',
+          columnFill: 'balance'
+        }}
+      >
 
         {notes.length !== 0 && notes.map((note) => {
           const isEdit = isEditableId === note.id;
 
           return (
-            <div
-              key={note.id}
-              className="relative border flex flex-col border-white/20 rounded-[5px] p-4 min-w-[20vw] max-w-[20vw] min-h-[40vh]
-              bg-transparent backdrop-blur-md shadow-[inset_0_0_0.5px_rgba(255,255,255,0.2)]
-              transition-transform duration-300 transform hover:border-white/60 hover:shadow-md"
-            >
+            //masonry layout 
+          <div
+          key={note.id}
+           className="break-inside-avoid mb-4 w-full border flex flex-col border-white/20 rounded-l p-4  backdrop-blur-md shadow-lg transition-all duration-300 transform hover:border-white/60 hover:shadow-xl "
+           style={{ 
+             display: 'inline-block',
+             width: '100%',
+             marginBottom: '16px'
+           }}
+           >
 
               {isEdit ? (
-                // 📝 Edit mode
+                //  Edit mode
                 <div>
                   <input
                     type="text"
@@ -77,23 +89,25 @@ function DisplayNotes() {
                   <textarea
                     value={editContent}
                     onChange={(e) => setEditContent(e.target.value)}
-                    className="text-white/80 text-sm leading-relaxed max-h-[30vh] min-h-[25vh] overflow-y-auto bg-transparent w-full outline-none resize-none"
+                    className="text-white/80 text-sm leading-relaxed min-h-32 overflow-y-auto bg-transparent w-full outline-none resize-none"
+                    style={{ height: 'auto', minHeight: '128px' }}
                   ></textarea>
                 </div>
               ) : (
-                // 👀 Display mode
+                //  Display mode
                 <div>
                   <h2 className="text-white font-semibold text-lg tracking-wide mb-2 border-b-2 border-white/40">
                     {note.title}
                   </h2>
                   <div
-                    className="text-white/80 text-sm leading-relaxed max-h-[30vh] overflow-y-auto"
+                    className="text-white/80 text-sm leading-relaxed overflow-y-auto"
+                    style={{ wordWrap: 'break-word' }}
                     dangerouslySetInnerHTML={{ __html: note.content }}
                   />
                 </div>
               )}
 
-              {/* 🔘 Buttons */}
+              {/*  Buttons */}
               <br />
 
               {summaryId === note.id && summary && (
@@ -101,7 +115,7 @@ function DisplayNotes() {
 
                   <h2 className='border-t-1 border-white/20 pt-2 pb-2  text-[18px] text-white/90'>Summary</h2>
                   
-                  <p className=' text-[15px] text-white/80 bg-[#282828] p-2.5'>{summary}</p>
+                  <p className=' text-[15px] text-white/80 bg-[#3a3939] rounded-l p-2.5'>{summary}</p>
                 </div>
               )}
               <div className='flex gap-2 mt-auto'>
@@ -115,7 +129,7 @@ function DisplayNotes() {
                     } else {
                       setIsEditableId(note.id);
                       setEditTitle(note.title);
-                      setEditContent(stripHtmlTags(note.content)); // ✨ clean content for editing
+                      setEditContent(stripHtmlTags(note.content)); 
                     }
                   }}
                 >
