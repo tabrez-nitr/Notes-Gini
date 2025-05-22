@@ -16,7 +16,7 @@ function NoteEditor() {
 
 
     //get notes from firestore database 
-    useEffect(()=>{
+  useEffect(()=>{
     const getNotes = async() =>{
       try{
       const docRef = doc(db,'notes','204')
@@ -37,7 +37,7 @@ function NoteEditor() {
   },[])
 
     // add notes to firestore database 
-    useEffect(()=>{
+  useEffect(()=>{
     
       if(!hasFetched)
         return
@@ -60,19 +60,12 @@ function NoteEditor() {
   },[notes])
 
 
-  
-  
-
-    
-    
-    
-    
   return (
     <div>
         {/* main div  */}
 
-    <div className='flex justify-center'>
-        <form  className='flex justify-center m-4 border-2 rounded-md shadow-[0_0_4px_1px_rgba(255,255,255,0.3)]' >
+   <div className='flex justify-center'>
+        <form  className='flex justify-center m-4 relative border border-white/20 rounded-[4px] bg-transparent backdrop-blur-md shadow-[inset_0_0_0.5px_rgba(255,255,255,0.2)] hover:border-white/50' >
             <RichTextEditor content={content} onChange={setContent}/>
         </form>
     </div>

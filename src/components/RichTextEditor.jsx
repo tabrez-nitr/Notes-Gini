@@ -19,7 +19,7 @@ const [ editorContent , setEditorContent] = useState('');
  
 
 //hook variable
-const notes = useNotes();
+  const notes = useNotes();
   const editor = useEditor({
     extensions: [
         StarterKit.configure({
@@ -53,11 +53,11 @@ const notes = useNotes();
 
 
 
-    <div className=" p-2 rounded-md bg-[#0C1C2C] space-y-2 ">
+    <div className=" p-2 rounded-md bg-transparent space-y-2 ">
       
 
       {/* ✏️ Editor */}
-      <EditorContent editor={editor} className="max-h-[150px] min-h-[50px] max-w-[37vw] overflow-y-auto text-white/75 " />
+      <EditorContent editor={editor} className="max-h-[150px] p-2 min-h-[50px] max-w-[37vw] overflow-y-auto text-white/75 " />
       {/* ✨ Toolbar */}
       <div className='flex justify-between'>
       <div className="flex gap-2">
@@ -125,7 +125,7 @@ const notes = useNotes();
             setEditorContent('')
              }
             }
-        ><i className="ri-add-large-fill  text-4xl  p-2 text-[#F5F5DC]"></i></button>
+          ><i className="ri-add-large-fill  text-4xl  p-2 text-[#F5F5DC]"></i></button>
       </div>
     </div>
     </div>

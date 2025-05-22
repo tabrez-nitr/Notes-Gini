@@ -13,6 +13,7 @@ export const useNotes = () => {
 // context provider 
 export const NotesContextProvider = ({ children }) => {
     const [notes , setNotes] = useState([]);
+    
     const addNote = (title,note) => {
       setNotes((prevState)=>(
         [{
@@ -25,16 +26,26 @@ export const NotesContextProvider = ({ children }) => {
     
     }
     console.log(notes)
+
+    // delete Note 
     const deleteNotes = (id) =>{
         console.log("delete function called")
         setNotes(notes.filter(note => note.id !== id))
    }
+
+   // for updating note
+   const updateNote = (id , title , content)=>{
+      setNotes(notes.map(note=> note.id === id 
+        ? { ... note , title : title , content : content}
+        : note
+      ));
+   };
    
    
     
 
     return(
-        <NotesContext.Provider value={{addNote,notes,setNotes, deleteNotes}} >
+        <NotesContext.Provider value={{addNote,notes,setNotes, deleteNotes , updateNote}} >
             {children}
         </NotesContext.Provider>
     )

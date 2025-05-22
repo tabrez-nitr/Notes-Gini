@@ -8,7 +8,7 @@ function App() {
 
   return (
     <div>
-      <h1 className='text-5xl text-center text-[#8aede5] font-bold mb-3'style={{
+      <h1 className='text-5xl text-center text-white/70 font-bold mb-3'style={{
         fontFamily: "sans-serif"
       }}>Notes&nbsp;<span className='text-[90px]' style={{
         fontFamily :'Brush Script MT',
