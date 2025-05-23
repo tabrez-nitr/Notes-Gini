@@ -7,7 +7,9 @@ import { useState } from 'react';
 import { useNotes } from '../context/NotesContext';
 import { showSuccessToast } from "../lib/toast"; 
 import { GoogleGenAI } from "@google/genai";
-import {Tooltip, Button} from "@heroui/react";
+import {Tooltip, Button,addToast, ToastProvider} from "@heroui/react";
+import { ToastContainer, toast, Bounce} from 'react-toastify';
+
 
 
 
@@ -38,7 +40,21 @@ const rewrite = async(editorContent) =>{
       console.log(error);
     }
 }
-  
+  // success toast
+
+  const successToast = () => {
+  toast.success('Note Added!', {
+    position: "bottom-right",
+    autoClose: 2000,
+    hideProgressBar: false,
+    closeOnClick: false,
+    pauseOnHover: false,
+    draggable: true,
+    progress: undefined,
+    theme: "dark",
+    transition: Bounce,
+  });
+};
 
 //hook variable
   const notes = useNotes();
@@ -142,7 +158,7 @@ const rewrite = async(editorContent) =>{
        <Button
        type='button'
        onClick={()=>rewrite(editorContent)}
-       className='p-3'
+      
        ><i className="ri-gemini-fill text-[20px]  transition duration-300 hover:text-[#4796E3] ml-2"></i></Button>
       </Tooltip>
 
@@ -157,11 +173,16 @@ const rewrite = async(editorContent) =>{
             editor.commands.clearContent();
             setTitle('')
             setEditorContent('')
+            successToast()
              }
             }
           > <Tooltip content="Add Note" placement='bottom'><i className="ri-add-large-fill  text-4xl  p-2 text-[#F5F5DC]"></i></Tooltip></button>
+          {/* toast addition  */}
       </div>
     </div>
+
+                
+
     </div>
   );
 };

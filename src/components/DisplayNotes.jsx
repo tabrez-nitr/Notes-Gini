@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { useNotes } from '../context/NotesContext';
 import { GoogleGenAI } from "@google/genai";
 import {Tooltip, Button} from "@heroui/react";
+import {addToast} from "@heroui/react";
+import { ToastContainer, toast, Bounce} from 'react-toastify';
+
 
 const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY });
 
@@ -42,6 +45,23 @@ function DisplayNotes() {
   const deleteNote = (id) => {
     deleteNotes(id);
   };
+
+
+  // delete toast
+
+  const deleteToast = () => {
+  toast.error('Note Deleted!', {
+    position: "bottom-right",
+    autoClose: 2000,
+    hideProgressBar: false,
+    closeOnClick: false,
+    pauseOnHover: false,
+    draggable: true,
+    progress: undefined,
+    theme: "dark",
+    transition: Bounce,
+  });
+};
 
   // 🔧 Utility to strip HTML tags for editing plain text
   const stripHtmlTags = (html) => {
@@ -147,7 +167,7 @@ function DisplayNotes() {
                 {/* summary button */}
                 <button className=' p-1 hover:opacity-50'
                  onClick={() => summarizeNote(stripHtmlTags(note.content),note.id)} >
-                  {summaryId === note.id ?  <Tooltip content="Hide Summary" placement='bottom'><i className="ri-gemini-line text-2xl text-[#4796E3]" ></i></Tooltip>: <Tooltip content="Summary" placement='bottom'><i class="ri-gemini-line text-2xl" ></i></Tooltip> }
+                  {summaryId === note.id ?  <Tooltip content="Hide Summary" placement='bottom'><i className="ri-gemini-line text-2xl text-[#9177C7]" ></i></Tooltip>: <Tooltip content="Summary" placement='bottom'><i class="ri-gemini-line text-2xl" ></i></Tooltip> }
                  </button>
 
                 </div>
@@ -156,7 +176,9 @@ function DisplayNotes() {
                   <button
                   type='button'
                   className='  hover:opacity-50'
-                  onClick={() => deleteNote(note.id)}
+                  onClick={() => {
+                    deleteNote(note.id) 
+                    deleteToast()}}
                    >
                   <Tooltip content="Delete" placement='bottom'><i className="ri-delete-bin-7-line text-2xl text-red-400 "></i></Tooltip>
                 </button>
@@ -165,6 +187,7 @@ function DisplayNotes() {
           );
         })}
       </div>
+
     </div>
   );
 }
