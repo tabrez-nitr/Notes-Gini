@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNotes } from '../context/NotesContext';
 import { GoogleGenAI } from "@google/genai";
+import {Tooltip, Button} from "@heroui/react";
 
 const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY });
 
@@ -50,7 +51,7 @@ function DisplayNotes() {
   };
 
   return (
-    <div className='m-5 ml-20 mr-20'>
+    <div className=' mr-20 ml-20 '>
       <h2 className='mt-2 mb-4 text-white text-2xl'>Your Notes</h2>
       <div 
         className="masonry-container"
@@ -69,7 +70,7 @@ function DisplayNotes() {
             //masonry layout 
           <div
           key={note.id}
-           className="break-inside-avoid mb-4 w-full border flex flex-col border-white/20 rounded-l p-4  backdrop-blur-md shadow-lg transition-all duration-300 transform hover:border-white/60 hover:shadow-xl "
+           className="break-inside-avoid mb-4  w-full border flex flex-col border-white/20 rounded-l p-4  backdrop-blur-md shadow-lg transition-all duration-300 transform hover:border-white/60 hover:shadow-xl "
            style={{ 
              display: 'inline-block',
              width: '100%',
@@ -118,10 +119,14 @@ function DisplayNotes() {
                   <p className=' text-[15px] text-white/80 bg-[#3a3939] rounded-l p-2.5'>{summary}</p>
                 </div>
               )}
-              <div className='flex gap-2 mt-auto'>
+              <div className='flex gap-2 mt-auto justify-between'>
+                {/* edit button  */}
+
+
+                 <div className='flex gap-3'>
                 <button
                   type="button"
-                  className='border-1 p-1 border-white/50 hover:opacity-50'
+                  className=' p-1  hover:opacity-50'
                   onClick={() => {
                     if (isEdit) {
                       updateNote(note.id, editTitle, editContent);
@@ -133,20 +138,28 @@ function DisplayNotes() {
                     }
                   }}
                 >
-                  {isEdit ? "Update" : "Edit"}
+                  {isEdit ?<Tooltip content="Save" placement='bottom' background="white" ><i className="ri-save-line text-2xl"></i></Tooltip>
+                  : <Tooltip content="Edit" placement='bottom' background="white" ><i className="ri-edit-2-line text-2xl text-[#4796E3]"></i></Tooltip>}
                 </button>
 
-                <button
-                  type='button'
-                  className='border-1 p-1 border-white/50 hover:opacity-50'
-                  onClick={() => deleteNote(note.id)}
-                >
-                  Delete
-                </button>
-                <button className='border-1 p-1 border-white/50 hover:opacity-50'
+     
+
+                {/* summary button */}
+                <button className=' p-1 hover:opacity-50'
                  onClick={() => summarizeNote(stripHtmlTags(note.content),note.id)} >
-                  {summaryId === note.id ? "Hide Summary" : "Summary" }
+                  {summaryId === note.id ?  <Tooltip content="Hide Summary" placement='bottom'><i className="ri-gemini-line text-2xl text-[#4796E3]" ></i></Tooltip>: <Tooltip content="Summary" placement='bottom'><i class="ri-gemini-line text-2xl" ></i></Tooltip> }
                  </button>
+
+                </div>
+
+                   {/* delete button */}
+                  <button
+                  type='button'
+                  className='  hover:opacity-50'
+                  onClick={() => deleteNote(note.id)}
+                   >
+                  <Tooltip content="Delete" placement='bottom'><i className="ri-delete-bin-7-line text-2xl text-red-400 "></i></Tooltip>
+                </button>
               </div>
             </div>
           );

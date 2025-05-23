@@ -7,6 +7,9 @@ import { useState } from 'react';
 import { useNotes } from '../context/NotesContext';
 import { showSuccessToast } from "../lib/toast"; 
 import { GoogleGenAI } from "@google/genai";
+import {Tooltip, Button} from "@heroui/react";
+
+
 
 
 const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY });
@@ -89,9 +92,9 @@ const rewrite = async(editorContent) =>{
                 padding : '0px 8px',
             }}
             >
-          <i className="ri-bold text-[20px] font-bold" 
+          <Tooltip content="Bold" placement='bottom'><i className="ri-bold text-[20px] font-bold" 
            style={{color : editor.isActive('bold')? 'black' : 'white'}}
-          ></i>
+          ></i></Tooltip>
         </button>
         <button type='button'  onClick={() => editor.chain().focus().toggleItalic().run()} className={editor.isActive('italic') ? 'active-btn' : 'btn'}
              style={{
@@ -102,9 +105,9 @@ const rewrite = async(editorContent) =>{
                 padding : '0px 8px',
             }}
             >
-          <i className="ri-italic text-[20px] font-bold"
-          style={{color : editor.isActive('italic')? 'black' : 'white'}}
-          ></i>
+                   <Tooltip content="Italic" placement='bottom'><i className="ri-italic text-[20px] font-bold"
+                  style={{color : editor.isActive('italic')? 'black' : 'white'}}
+                  > </i></Tooltip> 
         </button>
         <button type='button' onClick={() => editor.chain().focus().toggleStrike().run()} className={editor.isActive('strike') ? 'active-btn' : 'btn'}
             style={{
@@ -115,9 +118,9 @@ const rewrite = async(editorContent) =>{
                 padding : '0px 8px',
             }}
             >
-          <i className="ri-strikethrough text-[20px] font-bold"
+         <Tooltip content="Strike" placement='bottom'><i className="ri-strikethrough text-[20px] font-bold"
           style={{color : editor.isActive('strike')? 'black' : 'white'}}
-          ></i>
+          ></i></Tooltip> 
         </button>
        <button type="button" onClick={() => editor.chain().focus().toggleUnderline().run()}className={editor.isActive('underline') ? 'active-btn' : 'btn'}
          style={{
@@ -128,17 +131,22 @@ const rewrite = async(editorContent) =>{
                 padding : '0px 8px',
             }}
         >
-         <i className="ri-underline text-[20px] font-bold"
+        <Tooltip content="Underline" placement='bottom'><i className="ri-underline text-[20px] font-bold"
          style={{color : editor.isActive('underline')? 'black' : 'white'}}
-         ></i>
+         ></i></Tooltip>
        </button>
 
 
        {/* rewrite with gemini */}
-       <button 
+      <Tooltip content="Re-write" placement='bottom' background="white" color="secondary" >
+       <Button
        type='button'
        onClick={()=>rewrite(editorContent)}
-       ><i className="ri-gemini-fill text-[20px]  transition duration-300 hover:text-[#4796E3] ml-2"></i></button>
+       className='p-3'
+       ><i className="ri-gemini-fill text-[20px]  transition duration-300 hover:text-[#4796E3] ml-2"></i></Button>
+      </Tooltip>
+
+   
       </div>
 
       {/* notes addition button */}
@@ -151,7 +159,7 @@ const rewrite = async(editorContent) =>{
             setEditorContent('')
              }
             }
-          ><i className="ri-add-large-fill  text-4xl  p-2 text-[#F5F5DC]"></i></button>
+          > <Tooltip content="Add Note" placement='bottom'><i className="ri-add-large-fill  text-4xl  p-2 text-[#F5F5DC]"></i></Tooltip></button>
       </div>
     </div>
     </div>
