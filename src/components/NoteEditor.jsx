@@ -3,6 +3,7 @@ import RichTextEditor from './RichTextEditor'
 import { useNotes} from '../context/NotesContext.jsx'
 import {app} from '../context/Firebase.jsx'
 import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
+import {addToast , Button ,cn} from "@heroui/react";
 
 
 function NoteEditor() {
@@ -71,6 +72,14 @@ function NoteEditor() {
     </div>
 
          <div>
+     
+
+
+     
+
+
+
+
 
          </div>
     </div>
