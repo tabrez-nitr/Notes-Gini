@@ -6,17 +6,36 @@ import Underline from '@tiptap/extension-underline';
 import { useState } from 'react';
 import { useNotes } from '../context/NotesContext';
 import { showSuccessToast } from "../lib/toast"; 
+import { GoogleGenAI } from "@google/genai";
 
 
-
+const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY });
 
 
 const RichTextEditor = ({ content, onChange }) => {
 
 const [title , setTitle] = useState('');
 const [ editorContent , setEditorContent] = useState('');
-//firebase hook 
- 
+// gemini to rewrite 
+
+const rewrite = async(editorContent) =>{
+    console.log("rewrite function called")
+    
+    try{
+    const result = await ai.models.generateContent({
+    model: "gemini-2.0-flash",
+    contents: `Rewrite and complete it in under 50 words : ${editorContent}`,
+     });
+     console.log(result.text)
+     editor.commands.setContent(result.text); 
+     setEditorContent(result.text);
+     console.log(editorContent)
+    }
+    catch(error){
+      console.log(error);
+    }
+}
+  
 
 //hook variable
   const notes = useNotes();
@@ -113,6 +132,13 @@ const [ editorContent , setEditorContent] = useState('');
          style={{color : editor.isActive('underline')? 'black' : 'white'}}
          ></i>
        </button>
+
+
+       {/* rewrite with gemini */}
+       <button 
+       type='button'
+       onClick={()=>rewrite(editorContent)}
+       ><i className="ri-gemini-fill text-[20px]  transition duration-300 hover:text-[#4796E3] ml-2"></i></button>
       </div>
 
       {/* notes addition button */}
