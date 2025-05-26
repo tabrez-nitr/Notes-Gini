@@ -1,5 +1,5 @@
 import React from 'react'
-import NotePage from './components/Notepage'
+import NotePage from './components/NotePage'
 import HomePage from './components/HomePage'
 import { Outlet } from "react-router";
 import NavBar from './components/NavBar';
