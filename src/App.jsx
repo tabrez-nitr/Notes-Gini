@@ -2,7 +2,7 @@
 import Layout from "./Layout.jsx"
 import HomePage from "./components/HomePage.jsx"
 import { createBrowserRouter, RouterProvider } from "react-router";
-import NotePage from "./components/Notepage.jsx";
+import NotePage from "./components/NotePage.jsx";
 
 const router = createBrowserRouter([
   {
