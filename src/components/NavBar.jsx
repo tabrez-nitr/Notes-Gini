@@ -4,7 +4,7 @@ import logo from "../assets/logo.png"
 
 function NavBar() {
   return (
-    <div className='bg-[#021526] h-[9vh] flex justify-between p-4'>
+    <div className='bg-[#021526] h-[9vh] flex justify-between p-4 border-b-1 border-white/50'>
       
           <Link to=""><img src={logo} alt="" className='w-[55px] h-[55px] ml-4 rounded-4xl' /></Link>
        
