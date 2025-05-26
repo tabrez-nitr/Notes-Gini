@@ -13,9 +13,7 @@ createRoot(document.getElementById('root')).render(
     <NotesContextProvider>
        <UiProvider>
         <AuthProvider>
-
-        <App />
-        
+          <App />  
          </AuthProvider>
        </UiProvider>
     </NotesContextProvider>
