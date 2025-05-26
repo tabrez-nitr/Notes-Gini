@@ -2,9 +2,17 @@ import React from 'react'
 import NoteEditor from './NoteEditor'
 import DisplayNotes from './DisplayNotes'
 import { ToastContainer, toast, Bounce} from 'react-toastify';
+import { useAuth } from '../context/AuthContext';
 
 
 function NotePage() {
+  const {user} =useAuth();
+  if(user == null)
+  {
+    return <div className='flex justify-center items-center w-full h-screen'>
+      <h1 className='text-3xl'> Please Login and try again </h1>
+    </div>
+  }
   return (
     <div>
     <h1 className='text-5xl text-center text-white/70 font-bold mb-3 mt-4'style={{
