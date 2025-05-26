@@ -71,7 +71,10 @@ function DisplayNotes() {
   };
 
   return (
-    <div className=' mr-20 ml-20 '>
+    <div className=' mr-20 ml-20  w-full h-screen '
+    style={{
+      background:'rgb(15, 15, 22)',
+    }}>
       <h2 className='mt-2 mb-4 text-white text-2xl'>Your Notes</h2>
       <div 
         className="masonry-container"
