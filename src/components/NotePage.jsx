@@ -15,11 +15,11 @@ function NotePage() {
   }
   return (
     <div>
-    <h1 className='text-5xl text-center text-white/70 font-bold mb-3 mt-4'style={{
+    <h1 className='text-5xl text-center text-black/70 font-bold mb-3 mt-4'style={{
         fontFamily: "sans-serif"
       }}>Notes&nbsp;<span className='text-[90px]' style={{
         fontFamily :'Brush Script MT',
-        color:'white'
+        color:'black'
       }}>Gini</span></h1>
       <NoteEditor />
       <DisplayNotes/>

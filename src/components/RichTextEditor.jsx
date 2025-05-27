@@ -84,7 +84,7 @@ const rewrite = async(editorContent) =>{
       {/* title input field */}
      <input type="text"
     placeholder='Title'
-    className='text-3xl font-bold p-3 text-white/70   min-w-[37vw] ' 
+    className='text-3xl font-bold p-3 text-black/70   min-w-[37vw] ' 
     value={title}
     onChange={(e) => setTitle(e.target.value)}
     />
@@ -95,66 +95,65 @@ const rewrite = async(editorContent) =>{
       
 
       {/* ✏️ Editor */}
-      <EditorContent editor={editor} className="max-h-[150px] p-2 min-h-[50px] max-w-[37vw] overflow-y-auto text-white/75 " />
+      <EditorContent editor={editor} className="max-h-[150px] p-2 min-h-[50px] max-w-[37vw] overflow-y-auto text-black/75 " />
       {/* ✨ Toolbar */}
       <div className='flex justify-between'>
       <div className="flex gap-2">
         <button type='button' onClick={() => editor.chain().focus().toggleBold().run()} className={editor.isActive('bold') ? 'active-btn' : 'btn'}
             style={{
-                color : '#F5F5DC',
+                // color : '#F5F5DC',
                 background : editor.isActive('bold') ? '#91BFFF' : 'none',
-
+                border:'none',
                 borderRadius : '50%',
                 padding : '0px 8px',
             }}
             >
-          <Tooltip content="Bold" placement='bottom'><i className="ri-bold text-[20px] font-bold" 
-           style={{color : editor.isActive('bold')? 'black' : 'white'}}
+          <Tooltip content="Bold" className='text-black' placement='bottom'><i className="ri-bold text-[20px] font-bold" 
+           style={{color : editor.isActive('bold')? 'black' : 'black'}}
           ></i></Tooltip>
         </button>
         <button type='button'  onClick={() => editor.chain().focus().toggleItalic().run()} className={editor.isActive('italic') ? 'active-btn' : 'btn'}
              style={{
                 color : '#F5F5DC',
                 background : editor.isActive('italic') ? '#91BFFF' : 'none',
-                
+                border:'none',
                 borderRadius : '50%',
                 padding : '0px 8px',
             }}
             >
-                   <Tooltip content="Italic" placement='bottom'><i className="ri-italic text-[20px] font-bold"
-                  style={{color : editor.isActive('italic')? 'black' : 'white'}}
-                  > </i></Tooltip> 
+                   <Tooltip content="Italic" className='text-black' placement='bottom'><i className="ri-italic text-[20px] font-bold text-black"
+                    > </i></Tooltip> 
         </button>
         <button type='button' onClick={() => editor.chain().focus().toggleStrike().run()} className={editor.isActive('strike') ? 'active-btn' : 'btn'}
             style={{
                 color : '#F5F5DC',
                 background : editor.isActive('strike') ? '#91BFFF' : 'none',
-                
+                border:'none',
                 borderRadius : '50%',
                 padding : '0px 8px',
             }}
             >
-         <Tooltip content="Strike" placement='bottom'><i className="ri-strikethrough text-[20px] font-bold"
-          style={{color : editor.isActive('strike')? 'black' : 'white'}}
+         <Tooltip content="Strike" className='text-black' placement='bottom'><i className="ri-strikethrough text-[20px] font-bold text-black"
+      
           ></i></Tooltip> 
         </button>
        <button type="button" onClick={() => editor.chain().focus().toggleUnderline().run()}className={editor.isActive('underline') ? 'active-btn' : 'btn'}
          style={{
                 color : '#F5F5DC',
                 background : editor.isActive('underline') ? '#91BFFF' : 'none',
-                
+                border:'none',
                 borderRadius : '50%',
                 padding : '0px 8px',
             }}
         >
-        <Tooltip content="Underline" placement='bottom'><i className="ri-underline text-[20px] font-bold"
-         style={{color : editor.isActive('underline')? 'black' : 'white'}}
+        <Tooltip content="Underline" className='text-black' placement='bottom'><i className="ri-underline text-[20px] font-bold text-black"
+         
          ></i></Tooltip>
        </button>
 
 
        {/* rewrite with gemini */}
-      <Tooltip content="Re-write" placement='bottom' background="white" color="secondary" >
+      <Tooltip content="Re-write" className='text-black' placement='bottom' background="white" color="secondary" >
        <Button
        type='button'
        onClick={()=>rewrite(editorContent)}
@@ -176,7 +175,7 @@ const rewrite = async(editorContent) =>{
             successToast()
              }
             }
-          > <Tooltip content="Add Note" placement='bottom'><i className="ri-add-large-fill  text-4xl  p-2 text-[#F5F5DC]"></i></Tooltip></button>
+          > <Tooltip content="Add Note" className='text-black' placement='bottom'><i className="ri-add-large-fill  text-4xl  p-2 text-black"></i></Tooltip></button>
           {/* toast addition  */}
       </div>
     </div>
