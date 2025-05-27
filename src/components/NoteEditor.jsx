@@ -76,22 +76,11 @@ function NoteEditor() {
         {/* main div  */}
 
    <div className='flex justify-center'>
-        <form  className='flex justify-center m-4 relative border border-white/20 rounded-[4px] bg-transparent backdrop-blur-md shadow-[inset_0_0_0.5px_rgba(255,255,255,0.2)] hover:border-white/50' >
+        <form  className='flex justify-center m-4 relative border border-black/50 rounded-[4px]   hover:border-black backdrop-blur-md shadow-lg transition-all duration-300 transform  hover:shadow-xl ' >
             <RichTextEditor content={content} onChange={setContent}/>
         </form>
     </div>
 
-         <div>
-     
-
-
-     
-
-
-
-
-
-         </div>
     </div>
   )
 }

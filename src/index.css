@@ -22,10 +22,7 @@
 }
 
 body{
- 
-  
-  color: white;
-  background-color:rgb(15, 15, 22);
+  background-color:white;
 }
 
 input,
@@ -34,6 +31,5 @@ button,
 select {
   outline: none;
   box-shadow: none;
-  
   /* background: none; */
 }
