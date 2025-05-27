@@ -2,9 +2,6 @@ import { initializeApp } from "firebase/app";
 
 import { getAuth, signInWithPopup, GoogleAuthProvider , signOut  } from "firebase/auth";
 
-
-
-
 const firebaseConfig = {
   apiKey: "AIzaSyDanqMwYWIYZzfcxXQjZP9d-xViyYy3l74",
   authDomain: "notesgini.firebaseapp.com",
