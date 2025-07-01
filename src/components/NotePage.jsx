@@ -10,17 +10,17 @@ function NotePage() {
   if(user == null)
   {
     return <div className='flex justify-center items-center w-full h-screen'>
-      <h1 className='text-3xl'> Please Login and try again </h1>
+      <h1 className='text-3xl text-black'> Please Login and try again </h1>
     </div>
   }
   return (
-    <div>
-    <h1 className='text-5xl text-center text-black/70 font-bold mb-3 mt-4'style={{
+    <div className='mt-10'>
+    {/* <h1 className='text-5xl text-center text-black/70 font-bold mb-3 mt-4'style={{
         fontFamily: "sans-serif"
       }}>Notes&nbsp;<span className='text-[90px]' style={{
         fontFamily :'Brush Script MT',
         color:'black'
-      }}>Gini</span></h1>
+      }}>Gini</span></h1> */}
       <NoteEditor />
       <DisplayNotes/>
          {/* </div> */}

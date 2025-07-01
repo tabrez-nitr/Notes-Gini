@@ -7,11 +7,12 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({children}) => {
 
-   const [user , setUser] = useState(null);
+   const [user , setUser] = useState(null); // to store user login credentials 
    const [loading , setLoading] = useState(true);
 
+   // to sign in user
    const signIn = async() =>{
-          try{
+         try{
              const result = await signInWithPopup(auth,provider);
              setUser(result.user);
           }
@@ -30,8 +31,8 @@ export const AuthProvider = ({children}) => {
     }
    }
 
-// to if a user is already loged in 
-   useEffect(() => {
+// to check and set if  a user is already loged in 
+  useEffect(() => {
   const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
     setUser(currentUser);
     setLoading(false);
