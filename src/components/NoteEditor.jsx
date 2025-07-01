@@ -18,15 +18,19 @@ function NoteEditor() {
     
 
 
-    //get notes from firestore database 
+  //get notes from firestore database 
   useEffect(()=>{
-    if(user == null)
+    console.log("user",user)
+     if(user == null)
       return;
 
     const getNotes = async() =>{
       try{
+      console.log("inside try")
       const docRef = doc(db,'notes',user.uid)
+      console.log("docRef inistailized")
       const docSnap = await getDoc(docRef);
+      console.log("docSnap inistailized")
 
       if(docSnap.exists())
       {
@@ -37,10 +41,11 @@ function NoteEditor() {
         await setDoc(docRef,{notes: []});
         setNotes([]);
         setHasFetched(true);
-      }
+        }
       }
       catch(error){
        console.log(error.message)
+       console.log("not inside try")
       }
         
     }
@@ -49,9 +54,12 @@ function NoteEditor() {
 
     // add notes to firestore database 
   useEffect(()=>{
-    
-      if(!hasFetched || user == null)
+       
+     console.log("Inside add function")
+      if(!hasFetched || user == null){
+        console.log("Returned")
         return
+      }
 
       console.log("notes changed")
       const updateNote = async()=> {

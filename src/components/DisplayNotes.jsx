@@ -71,33 +71,17 @@ function DisplayNotes() {
   };
 
   return (
-    <div className=' mr-20 ml-20  w-full h-screen bg-white'>
+    <div className=' sm:mr-20 sm:ml-20 p-2 text-[0px] w-full h-screen bg-white'>
       <h2 className='mt-2 mb-4 text-black text-2xl'>Your Notes</h2>
-      <div 
-        className="masonry-container"
-        style={{
-          columnCount: 'auto',
-          columnWidth: '300px',
-          columnGap: '16px',
-          columnFill: 'balance'
-        }}
-      >
-
+      <div className="flex sm:gap-5 gap-2 flex-wrap">
         {notes.length !== 0 && notes.map((note) => {
           const isEdit = isEditableId === note.id;
-
           return (
-            //masonry layout 
-          <div
-          key={note.id}
-           className="break-inside-avoid mb-4 text-black w-full border-1 border-black/40 hover:border-black/80 flex flex-col  rounded-l p-4  backdrop-blur-md shadow-lg transition-all duration-300 transform  hover:shadow-xl "
-           style={{ 
-             display: 'inline-block',
-             width: '100%',
-             marginBottom: '16px'
-           }}
-           >
-
+            <div
+              key={note.id}
+              className="text-black border-1  border-black/40 sm:w-[20vw] w-[47vw] hover:border-black/80 flex flex-col  rounded-l sm:p-4 p-2 backdrop-blur-md shadow-lg transition-all duration-300 transform hover:shadow-xl"
+            >
+              {/* display edit and non edit notes  */}
               {isEdit ? (
                 //  Edit mode
                 <div>
@@ -105,7 +89,7 @@ function DisplayNotes() {
                     type="text"
                     value={editTitle}
                     onChange={(e) => setEditTitle(e.target.value)}
-                    className='text-black font-semibold text-lg tracking-wide mb-2 border-b-2 border-black/40 bg-transparent w-full outline-none'
+                    className='text-black font-semibold text-[20px] tracking-wide mb-2 border-b-2 border-black/40 bg-transparent w-full outline-none'
                   />
                   <textarea
                     value={editContent}

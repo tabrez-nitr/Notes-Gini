@@ -84,7 +84,7 @@ const rewrite = async(editorContent) =>{
       {/* title input field */}
      <input type="text"
     placeholder='Title'
-    className='text-3xl font-bold p-3 text-black/70   min-w-[37vw] ' 
+    className='text-3xl font-bold p-3 text-black/70   ' 
     value={title}
     onChange={(e) => setTitle(e.target.value)}
     />
@@ -95,10 +95,10 @@ const rewrite = async(editorContent) =>{
       
 
       {/* ✏️ Editor */}
-      <EditorContent editor={editor} className="max-h-[150px] p-2 min-h-[50px] max-w-[37vw] overflow-y-auto text-black/75 " />
+      <EditorContent editor={editor} className="max-h-[150px] p-2 min-h-[52px] sm:w-[33vw]  w-[78vw] overflow-y-auto text-black/75 " />
       {/* ✨ Toolbar */}
       <div className='flex justify-between'>
-      <div className="flex gap-2">
+      <div className="flex  ">
         <button type='button' onClick={() => editor.chain().focus().toggleBold().run()} className={editor.isActive('bold') ? 'active-btn' : 'btn'}
             style={{
                 // color : '#F5F5DC',
@@ -158,7 +158,7 @@ const rewrite = async(editorContent) =>{
        type='button'
        onClick={()=>rewrite(editorContent)}
       
-       ><i className="ri-gemini-fill text-[20px]  transition duration-300 hover:text-[#4796E3] ml-2"></i></Button>
+       ><i className="ri-gemini-fill text-[20px] text-[#4796E3] transition duration-300  ml-2"></i></Button>
       </Tooltip>
 
    
