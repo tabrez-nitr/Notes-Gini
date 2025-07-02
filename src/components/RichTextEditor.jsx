@@ -80,7 +80,7 @@ const rewrite = async(editorContent) =>{
   if (!editor) return null;
 
   return (
-    <div>
+    <div className='w-[85vw] sm:w-[33vw] '>
       {/* title input field */}
      <input type="text"
     placeholder='Title'
@@ -91,11 +91,11 @@ const rewrite = async(editorContent) =>{
 
 
 
-    <div className=" p-2 rounded-md bg-transparent space-y-2 ">
+    <div className=" p-2 rounded-md bg-transparent  space-y-2 ">
       
 
       {/* ✏️ Editor */}
-      <EditorContent editor={editor} className="max-h-[150px] p-2 min-h-[52px] sm:w-[33vw]  w-[78vw] overflow-y-auto text-black/75 " />
+      <EditorContent editor={editor} className="max-h-[150px] p-2 min-h-[52px] sm:w-[33vw] w-[]   overflow-y-auto text-black/75 " />
       {/* ✨ Toolbar */}
       <div className='flex justify-between'>
       <div className="flex  ">

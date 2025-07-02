@@ -1,12 +1,18 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useAuth } from '../context/AuthContext'
 import homeimage from"../assets/homeimage.png"
+import NotePage from './NotePage'; 
 
 function HomePage() {
 
  const {signIn , signOutUser , user} = useAuth();
+
+  
+
+
+
   return (
-    <div className="bg-white min-h-screen w-full  text-black">
+    <div className="bg-white  min-h-screen w-full   text-black">
       <div className='sm:px-60 p-3'>
 
      <div className=' flex justify-center '>
@@ -16,8 +22,8 @@ function HomePage() {
      style={{ backgroundImage: `url(${homeimage})` }}
       >
        <div className='text-center'>
-       <h1 className='sm:text-[60px] text-[50px] text-white font-bold'>Your Smart Note-Taking Companion</h1>
-       <h2 className='text-[22px] text-white/75'>Enhance your note taking with AI powered features. Rewrite, summarize, and organize your thoughts effortlessly.</h2>
+       <h1 className='sm:text-[60px] text-[200%] text-white font-bold'>Your Smart Note-Taking Companion</h1>
+       <h2 className='sm:text-[22px] text-[100%] text-white/75'>Enhance your note taking with AI powered features. Rewrite, summarize, and organize your thoughts effortlessly.</h2>
        <button className='mt-8 text-[18px] cursor-pointer  text-black py-3 font-medium px-6 rounded-[12px] bg-[#DDE7F2] hover:bg-[#afcbe6]'>Start Taking Notes</button>
        </div>
      </div>

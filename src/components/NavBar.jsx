@@ -2,6 +2,9 @@ import { Link } from 'react-router'
 import React from 'react'
 import { useAuth } from '../context/AuthContext'
 import { useState } from 'react';
+import DarkMode from './DarkMode';
+
+
 function NavBar() {
 
   const {user , signOutUser , signIn} = useAuth();
@@ -21,20 +24,17 @@ function NavBar() {
           <ul className='flex items-center'><Link  className=' hover:text-[#4796E3]'>Features</Link></ul>
          <ul className='flex items-center'><Link to="note" className=' hover:text-[#4796E3]'>Note</Link></ul>
 
-        {user === null &&  <ul className='flex items-center'><button type='button'  className='font-medium cursor-pointer bg-[#DDE7F2] p-2  px-5 rounded-[8px] hover:bg-[#afcbe6]' onClick={()=> signIn()}>Get Started</button></ul> }
+        
 
         
            
-        {user !== null &&  
-        <button className='flex justify-center items-center bg-[red]/70 text-white p-4 rounded hover:bg-[red]/100 p-2 cursor-pointer ' 
-            onClick={()=> signOutUser()}
-           >Sign Out</button>
-           }
+       
 
           </div>
 
           {/* Hamburger icon for drop down */}
           <div className='md:hidden absolute top-3 right-5'>
+            
             <button className='text-2xl ' 
             onClick={()=> setDropDown(!dropDown)}>
             ☰
@@ -57,8 +57,26 @@ function NavBar() {
            </div> 
             </div>
           )}
-        
-               
+          <div className='flex gap-5  md:block hidden'>
+
+
+          {/* <DarkMode/> */}
+          {user !== null &&  
+            <div className='absolute top-3 right-4'><button className='flex justify-center items-center w-[100px] h-[30px]  bg-[red]/70 text-white p-4 rounded hover:bg-[red]/100 p-2 cursor-pointer ' 
+            onClick={()=> signOutUser()}
+           >Sign Out</button></div>
+           }
+          
+         
+           {user === null &&  <ul className='flex items-center absolute top-1 right-4'>
+           <button onClick={()=> signIn()}
+             className="relative inline-flex h-12 overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50">
+           <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
+           <span className="inline-flex h-full w-full  cursor-pointer items-center justify-center rounded-full bg-white text-black px-3 py-1 text-sm font-medium backdrop-blur-3xl">
+           Sign Up or Sign In
+        </span>
+      </button></ul>}
+         </div>    
     </div>
   )
 }
