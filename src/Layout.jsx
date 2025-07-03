@@ -5,6 +5,8 @@ import { Outlet } from "react-router";
 import NavBar from './components/NavBar';
 import { useAuth } from './context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import LoaderButton from './lib/LoaderButton';
+
 
 
 
@@ -23,7 +25,7 @@ function Layout() {
      
        if(loading)
       {
-        return <div className='flex justify-center items-center w-full h-screen'><span className="loading loading-spinner w-16 h-16 text-info"></span></div>
+        return <LoaderButton/>
       } 
   return (
     <div>

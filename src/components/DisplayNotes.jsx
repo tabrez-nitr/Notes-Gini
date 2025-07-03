@@ -71,15 +71,16 @@ function DisplayNotes() {
   };
 
   return (
-    <div className='sm:px-23 p-2 text-[0px] w-full h-screen bg-white'>
+    <div className='sm:px-26 '>
+    <div className=' p-2 text-[0px] w-full h-screen bg-white'>
       <h2 className='mt-2 mb-4 text-black text-2xl'>Your Notes</h2>
-      <div className="flex sm:gap-5 gap-2 flex-wrap">
+      <div className="flex sm:gap-5 gap-1 flex-wrap">
         {notes.length !== 0 && notes.map((note) => {
           const isEdit = isEditableId === note.id;
           return (
             <div
               key={note.id}
-              className="text-black border-1  border-black/40 sm:w-[20vw] w-[47%] hover:border-black/80 flex flex-col  rounded-l sm:p-4 p-2 backdrop-blur-md shadow-lg transition-all duration-300 transform hover:shadow-xl"
+              className="text-black border-1  border-black/40 sm:w-[20vw] w-[49%] hover:border-black/80 flex flex-col  rounded-xl sm:p-4 p-2 backdrop-blur-md shadow-lg transition-all duration-300 transform hover:shadow-xl"
             >
               {/* display edit and non edit notes  */}
               {isEdit ? (
@@ -172,6 +173,7 @@ function DisplayNotes() {
         })}
       </div>
 
+    </div>
     </div>
   );
 }
