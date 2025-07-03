@@ -24,12 +24,6 @@ function NavBar() {
           <ul className='flex items-center'><Link  className=' hover:text-[#4796E3]'>Features</Link></ul>
          <ul className='flex items-center'><Link to="note" className=' hover:text-[#4796E3]'>Note</Link></ul>
 
-        
-
-        
-           
-       
-
           </div>
 
           {/* Hamburger icon for drop down */}
