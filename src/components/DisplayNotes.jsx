@@ -73,7 +73,7 @@ function DisplayNotes() {
   return (
     <div className='sm:px-26 '>
     <div className=' p-2 text-[0px] w-full h-screen bg-white'>
-      <h2 className='mt-2 mb-4 text-black text-2xl'>Your Notes</h2>
+      {notes.length !== 0 && <h2 className='mt-2 mb-4 text-black text-2xl'>Your Notes</h2>}
       <div className="flex sm:gap-5 gap-1 flex-wrap">
         {notes.length !== 0 && notes.map((note) => {
           const isEdit = isEditableId === note.id;
@@ -106,7 +106,7 @@ function DisplayNotes() {
                     {note.title}
                   </h2>
                   <div
-                    className="text-black/80 text-sm leading-relaxed overflow-y-auto"
+                    className="text-black/80 text-sm leading-snug sm:leading-relaxed overflow-y-auto"
                     style={{ wordWrap: 'break-word' }}
                     dangerouslySetInnerHTML={{ __html: note.content }}
                   />
@@ -143,8 +143,8 @@ function DisplayNotes() {
                     }
                   }}
                 >
-                  {isEdit ?<Tooltip content="Save" className='text-black' placement='bottom' background="black" ><i className="ri-save-line text-2xl"></i></Tooltip>
-                  : <Tooltip content="Edit" className='text-black' placement='bottom' background="white" ><i className="ri-edit-2-line text-2xl text-[#4796E3]"></i></Tooltip>}
+                  {isEdit ?<Tooltip content="Save" className='text-black' placement='bottom' background="black" ><i className="ri-save-line text-[20px] sm:text-2xl"></i></Tooltip>
+                  : <Tooltip content="Edit" className='text-black' placement='bottom' background="white" ><i className="ri-edit-2-line text-[20px] sm:text-2xl text-[#4796E3]"></i></Tooltip>}
                 </button>
 
      
@@ -152,7 +152,7 @@ function DisplayNotes() {
                 {/* summary button */}
                 <button className=' p-1 hover:opacity-50'
                  onClick={() => summarizeNote(stripHtmlTags(note.content),note.id)} >
-                  {summaryId === note.id ?  <Tooltip content="Hide Summary" className='text-black' placement='bottom'><i className="ri-gemini-line text-2xl text-[#9177C7]" ></i></Tooltip>: <Tooltip content="Summary" className='text-black' placement='bottom'><i class="ri-gemini-line text-2xl" ></i></Tooltip> }
+                  {summaryId === note.id ?  <Tooltip content="Hide Summary" className='text-black' placement='bottom'><i className="ri-gemini-line text-[20px] sm:text-2xl text-[#9177C7]" ></i></Tooltip>: <Tooltip content="Summary" className='text-black' placement='bottom'><i class="ri-gemini-line text-[20px] sm:text-2xl" ></i></Tooltip> }
                  </button>
 
                 </div>
@@ -165,7 +165,7 @@ function DisplayNotes() {
                     deleteNote(note.id) 
                     deleteToast()}}
                    >
-                  <Tooltip content="Delete" className='text-black' placement='bottom'><i className="ri-delete-bin-7-line text-2xl text-red-400 "></i></Tooltip>
+                  <Tooltip content="Delete" className='text-black' placement='bottom'><i className="ri-delete-bin-7-line text-[20px] sm:text-2xl text-red-400 "></i></Tooltip>
                 </button>
               </div>
             </div>
