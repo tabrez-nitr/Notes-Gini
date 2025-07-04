@@ -1,12 +1,42 @@
-# React + Vite
+# 🧠 Notes Gini
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Notes Gini** is an AI-powered note-taking application that helps you create, edit, and manage notes—while using Google's Gemini API to instantly summarize or rewrite them. Built with a clean UI and seamless user experience in mind.
 
-Currently, two official plugins are available:
+## 🚀 Live Demo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+🔗 [Try it here](https://notes-gini.vercel.app)
 
-## Expanding the ESLint configuration
+## 🎥 Demo Video
+https://github.com/user-attachments/assets/c01023b1-c581-410f-bee4-2b8ef47a3883
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+
+## ✨ Features
+
+- ✍️ Create, edit, and delete notes
+- 📁 Organize your thoughts with a clean, responsive interface
+- 🔐 Secure user authentication with Firebase
+- 🤖 AI-powered tools to **summarize** or **rewrite** your notes using Gemini API
+
+## 🛠️ Tech Stack
+
+| Layer     | Tools Used                          |
+|-----------|-------------------------------------|
+| Frontend  | React, Tailwind CSS                 |
+| Backend   | Firebase (Auth + Firestore)         |
+| AI Layer  | Google Gemini Flash 2.0 API         |
+| Hosting   | Vercel                               |
+
+## 📸 Screenshots
+
+*(Optional: Add screenshots here if available)*
+
+## 🔧 Installation & Setup
+
+ **Clone the repository**
+   ```bash
+   git clone https://github.com/tabrez-nitr/Notes-Gini.git
+   cd Notes-Gini
+   npm i
+   npm run dev
+   ```
+   
