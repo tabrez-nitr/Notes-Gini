@@ -24,7 +24,9 @@ function HomePage() {
        <div className='text-center'>
        <h1 className='sm:text-[60px] text-[200%] text-white font-bold'>Your Smart Note-Taking Companion</h1>
        <h2 className='sm:text-[22px] text-[100%] text-white/75'>Enhance your note taking with AI powered features. Rewrite, summarize, and organize your thoughts effortlessly.</h2>
-       <button className='mt-8 text-[18px] cursor-pointer  text-black py-3 font-medium px-6 rounded-[12px] bg-[#DDE7F2] hover:bg-[#afcbe6]'>Start Taking Notes</button>
+       <button className='mt-8 text-[18px] cursor-pointer  text-black py-3 font-medium px-6 rounded-[12px] bg-[#DDE7F2] hover:bg-[#afcbe6]'
+         onClick={() => signIn()}
+       >Start Taking Notes</button>
        </div>
      </div>
 
