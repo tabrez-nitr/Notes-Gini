@@ -28,7 +28,10 @@ https://github.com/user-attachments/assets/c01023b1-c581-410f-bee4-2b8ef47a3883
 
 ## 📸 Screenshots
 
-*(Optional: Add screenshots here if available)*
+<img width="1470" alt="Screenshot 2025-07-04 at 20 36 10" src="https://github.com/user-attachments/assets/4d1bbb6a-f317-440c-8cae-91c953d6bbfd" />
+<img width="1470" alt="Screenshot 2025-07-04 at 20 37 00" src="https://github.com/user-attachments/assets/f60740c0-7036-4249-8a78-7d230b66bc16" />
+
+
 
 ## 🔧 Installation & Setup
 
