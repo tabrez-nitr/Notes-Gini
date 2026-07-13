@@ -1,14 +1,14 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithPopup, GoogleAuthProvider , signOut  } from "firebase/auth";
+import { getAuth, GoogleAuthProvider } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDanqMwYWIYZzfcxXQjZP9d-xViyYy3l74",
-  authDomain: "notesgini.firebaseapp.com",
-  projectId: "notesgini",
-  storageBucket: "notesgini.firebasestorage.app",
-  messagingSenderId: "519339408907",
-  appId: "1:519339408907:web:2ab0077dc7550595ebd10e",
-  measurementId: "G-JBCEYN8JFL"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
 
@@ -17,4 +17,3 @@ const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
 export { auth , provider };
-

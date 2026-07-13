@@ -1,23 +1,27 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+
+function getInitialDark() {
+  if (typeof window === 'undefined') return false;
+  const saved = localStorage.getItem('darkMode');
+  if (saved !== null) return JSON.parse(saved);
+  return window.matchMedia('(prefers-color-scheme: dark)').matches;
+}
 
 export default function useDarkMode() {
-  const [isDark, setIsDark] = useState(false);
+  const [isDark, setIsDarkState] = useState(getInitialDark);
 
   useEffect(() => {
-    // Check if dark mode is saved in localStorage
-    const savedDarkMode = localStorage.getItem('darkMode');
-    if (savedDarkMode !== null) {
-      setIsDark(JSON.parse(savedDarkMode));
-      document.documentElement.classList.toggle('dark', JSON.parse(savedDarkMode));
-    }
+    document.documentElement.classList.toggle('dark', isDark);
+    localStorage.setItem('darkMode', JSON.stringify(isDark));
+  }, [isDark]);
+
+  const setIsDark = useCallback((value) => {
+    setIsDarkState((prev) => (typeof value === 'function' ? value(prev) : value));
   }, []);
 
-  const toggleDarkMode = () => {
-    const nextDark = !isDark;
-    setIsDark(nextDark);
-    localStorage.setItem('darkMode', JSON.stringify(nextDark));
-    document.documentElement.classList.toggle('dark', nextDark);
-  };
+  const toggleDarkMode = useCallback(() => {
+    setIsDarkState((prev) => !prev);
+  }, []);
 
-  return [isDark, setIsDark];
+  return [isDark, setIsDark, toggleDarkMode];
 }

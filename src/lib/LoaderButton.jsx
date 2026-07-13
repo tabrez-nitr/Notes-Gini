@@ -1,94 +1,25 @@
 import React from 'react';
-import styled from 'styled-components';
 
 const LoaderButton = () => {
   return (
-    <StyledWrapper>
-      <div className="loader">
-        <div className="justify-content-center jimu-primary-loading" />
+    <div className="app-bg flex min-h-screen flex-col items-center justify-center gap-5">
+      <div className="relative flex h-14 w-14 items-center justify-center">
+        {/* Amber/Orange pulse rings */}
+        <span className="absolute inset-0 animate-ping rounded-full bg-brand-500/20" />
+        <span className="animate-orange-glow flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-brand-600 text-white shadow-lg shadow-brand-500/30">
+          <i className="ri-quill-pen-ai-fill text-xl" />
+        </span>
       </div>
-    </StyledWrapper>
+      <p className="text-sm font-semibold text-slate-400">
+        Loading Notes Gini…
+      </p>
+      <div className="flex gap-2">
+        <span className="h-1.5 w-1.5 rounded-full bg-brand-400" style={{ animation: 'wave 1.2s ease-in-out infinite', animationDelay: '0ms' }} />
+        <span className="h-1.5 w-1.5 rounded-full bg-brand-500" style={{ animation: 'wave 1.2s ease-in-out infinite', animationDelay: '150ms' }} />
+        <span className="h-1.5 w-1.5 rounded-full bg-brand-600" style={{ animation: 'wave 1.2s ease-in-out infinite', animationDelay: '300ms' }} />
+      </div>
+    </div>
   );
-}
-
-const StyledWrapper = styled.div`
-  .loader {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-  }
-
-  .jimu-primary-loading:before,
-  .jimu-primary-loading:after {
-    position: absolute;
-    top: 0;
-    content: '';
-  }
-
-  .jimu-primary-loading:before {
-    left: -19.992px;
-  }
-
-  .jimu-primary-loading:after {
-    left: 19.992px;
-    -webkit-animation-delay: 0.32s !important;
-    animation-delay: 0.32s !important;
-  }
-
-  .jimu-primary-loading:before,
-  .jimu-primary-loading:after,
-  .jimu-primary-loading {
-    background: #076fe5;
-    -webkit-animation: loading-keys-app-loading 0.8s infinite ease-in-out;
-    animation: loading-keys-app-loading 0.8s infinite ease-in-out;
-    width: 13.6px;
-    height: 32px;
-  }
-
-  .jimu-primary-loading {
-    text-indent: -9999em;
-    margin: auto;
-    position: absolute;
-    right: calc(50% - 6.8px);
-    top: calc(50% - 16px);
-    -webkit-animation-delay: 0.16s !important;
-    animation-delay: 0.16s !important;
-  }
-
-  @-webkit-keyframes loading-keys-app-loading {
-
-    0%,
-    80%,
-    100% {
-      opacity: .75;
-      box-shadow: 0 0 #076fe5;
-      height: 32px;
-    }
-
-    40% {
-      opacity: 1;
-      box-shadow: 0 -8px #076fe5;
-      height: 40px;
-    }
-  }
-
-  @keyframes loading-keys-app-loading {
-
-    0%,
-    80%,
-    100% {
-      opacity: .75;
-      box-shadow: 0 0 #076fe5;
-      height: 32px;
-    }
-
-    40% {
-      opacity: 1;
-      box-shadow: 0 -8px #076fe5;
-      height: 40px;
-    }
-  }`;
+};
 
 export default LoaderButton;

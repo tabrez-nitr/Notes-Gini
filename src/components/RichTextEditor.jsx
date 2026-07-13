@@ -1,189 +1,185 @@
-// RichTextEditor.jsx
-import { useEditor, EditorContent } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
-import Placeholder from '@tiptap/extension-placeholder';
-import Underline from '@tiptap/extension-underline';
-import { useState } from 'react';
-import { useNotes } from '../context/NotesContext';
-import { showSuccessToast } from "../lib/toast"; 
-import { GoogleGenAI } from "@google/genai";
-import {Tooltip, Button,addToast, ToastProvider} from "@heroui/react";
-import { ToastContainer, toast, Bounce} from 'react-toastify';
+import { useEditor, EditorContent } from '@tiptap/react'
+import StarterKit from '@tiptap/starter-kit'
+import Placeholder from '@tiptap/extension-placeholder'
+import Underline from '@tiptap/extension-underline'
+import { useState } from 'react'
+import { useNotes } from '../context/NotesContext'
+import { GoogleGenAI } from '@google/genai'
+import { Tooltip } from '@heroui/react'
+import { toast, Bounce } from 'react-toastify'
 
-
-
-
-
-const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY });
-
+const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY })
 
 const RichTextEditor = ({ content, onChange }) => {
+  const [title, setTitle] = useState('')
+  const [editorContent, setEditorContent] = useState('')
+  const [rewriting, setRewriting] = useState(false)
 
-const [title , setTitle] = useState('');
-const [ editorContent , setEditorContent] = useState('');
-// gemini to rewrite 
+  const notes = useNotes()
 
-const rewrite = async(editorContent) =>{
-    console.log("rewrite function called")
-    
-    try{
-    const result = await ai.models.generateContent({
-    model: "gemini-2.0-flash",
-    contents: `Rewrite and complete it in under 50 words : ${editorContent}`,
-     });
-     console.log(result.text)
-     editor.commands.setContent(result.text); 
-     setEditorContent(result.text);
-     console.log(editorContent)
+  const rewrite = async (text) => {
+    if (!text || !text.trim()) {
+      toast.info('Write something first, then rewrite.', {
+        position: 'bottom-right',
+        autoClose: 2000,
+        theme: 'dark',
+        transition: Bounce,
+      })
+      return
     }
-    catch(error){
-      console.log(error);
+    setRewriting(true)
+    try {
+      const result = await ai.models.generateContent({
+        model: 'gemini-3.1-flash-lite',
+        contents: `Rewrite and complete it in under 50 words : ${text}`,
+      })
+      editor.commands.setContent(result.text)
+      setEditorContent(result.text)
+      onChange(result.text)
+    } catch (error) {
+      console.log(error)
+      toast.error('Rewrite failed. Try again.', {
+        position: 'bottom-right',
+        autoClose: 2000,
+        theme: 'dark',
+        transition: Bounce,
+      })
+    } finally {
+      setRewriting(false)
     }
-}
-  // success toast
+  }
 
   const successToast = () => {
-  toast.success('Note Added!', {
-    position: "bottom-right",
-    autoClose: 2000,
-    hideProgressBar: false,
-    closeOnClick: false,
-    pauseOnHover: false,
-    draggable: true,
-    progress: undefined,
-    theme: "dark",
-    transition: Bounce,
-  });
-};
+    toast.success('Note added!', {
+      position: 'bottom-right',
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: false,
+      draggable: true,
+      theme: 'dark',
+      transition: Bounce,
+    })
+  }
 
-//hook variable
-  const notes = useNotes();
   const editor = useEditor({
     extensions: [
-        StarterKit.configure({
-            Underline  : false,
-        }),
-        Underline,
-       Placeholder.configure({
-        placeholder: 'Write Your Note',
-      }), 
+      StarterKit.configure({
+        Underline: false,
+      }),
+      Underline,
+      Placeholder.configure({
+        placeholder: 'Start writing your note…',
+      }),
     ],
     content: content,
     onUpdate: ({ editor }) => {
-      const html = editor.getHTML();
-      onChange(html);
+      const html = editor.getHTML()
+      onChange(html)
       setEditorContent(html)
-
     },
-  });
+  })
 
-  if (!editor) return null;
+  if (!editor) return null
+
+  const formatButtons = [
+    {
+      label: 'Bold',
+      icon: 'ri-bold',
+      action: () => editor.chain().focus().toggleBold().run(),
+      active: editor.isActive('bold'),
+    },
+    {
+      label: 'Italic',
+      icon: 'ri-italic',
+      action: () => editor.chain().focus().toggleItalic().run(),
+      active: editor.isActive('italic'),
+    },
+    {
+      label: 'Strike',
+      icon: 'ri-strikethrough',
+      action: () => editor.chain().focus().toggleStrike().run(),
+      active: editor.isActive('strike'),
+    },
+    {
+      label: 'Underline',
+      icon: 'ri-underline',
+      action: () => editor.chain().focus().toggleUnderline().run(),
+      active: editor.isActive('underline'),
+    },
+  ]
 
   return (
-    <div className='w-[85vw] sm:w-[33vw] '>
-      {/* title input field */}
-     <input type="text"
-    placeholder='Title'
-    className='text-3xl font-bold p-3 text-black/70   ' 
-    value={title}
-    onChange={(e) => setTitle(e.target.value)}
-    />
-
-
-
-    <div className=" p-2 rounded-md bg-transparent  space-y-2 ">
-      
-
-      {/* ✏️ Editor */}
-      <EditorContent editor={editor} className="max-h-[150px] p-2 min-h-[52px] sm:w-[33vw] w-[]   overflow-y-auto text-black/75 " />
-      {/* ✨ Toolbar */}
-      <div className='flex justify-between'>
-      <div className="flex  ">
-        <button type='button' onClick={() => editor.chain().focus().toggleBold().run()} className={editor.isActive('bold') ? 'active-btn' : 'btn'}
-            style={{
-                // color : '#F5F5DC',
-                background : editor.isActive('bold') ? '#91BFFF' : 'none',
-                border:'none',
-                borderRadius : '50%',
-                padding : '0px 8px',
-            }}
-            >
-          <Tooltip content="Bold" className='text-black' placement='bottom'><i className="ri-bold text-[20px] font-bold" 
-           style={{color : editor.isActive('bold')? 'black' : 'black'}}
-          ></i></Tooltip>
-        </button>
-        <button type='button'  onClick={() => editor.chain().focus().toggleItalic().run()} className={editor.isActive('italic') ? 'active-btn' : 'btn'}
-             style={{
-                color : '#F5F5DC',
-                background : editor.isActive('italic') ? '#91BFFF' : 'none',
-                border:'none',
-                borderRadius : '50%',
-                padding : '0px 8px',
-            }}
-            >
-                   <Tooltip content="Italic" className='text-black' placement='bottom'><i className="ri-italic text-[20px] font-bold text-black"
-                    > </i></Tooltip> 
-        </button>
-        <button type='button' onClick={() => editor.chain().focus().toggleStrike().run()} className={editor.isActive('strike') ? 'active-btn' : 'btn'}
-            style={{
-                color : '#F5F5DC',
-                background : editor.isActive('strike') ? '#91BFFF' : 'none',
-                border:'none',
-                borderRadius : '50%',
-                padding : '0px 8px',
-            }}
-            >
-         <Tooltip content="Strike" className='text-black' placement='bottom'><i className="ri-strikethrough text-[20px] font-bold text-black"
-      
-          ></i></Tooltip> 
-        </button>
-       <button type="button" onClick={() => editor.chain().focus().toggleUnderline().run()}className={editor.isActive('underline') ? 'active-btn' : 'btn'}
-         style={{
-                color : '#F5F5DC',
-                background : editor.isActive('underline') ? '#91BFFF' : 'none',
-                border:'none',
-                borderRadius : '50%',
-                padding : '0px 8px',
-            }}
-        >
-        <Tooltip content="Underline" className='text-black' placement='bottom'><i className="ri-underline text-[20px] font-bold text-black"
-         
-         ></i></Tooltip>
-       </button>
-
-
-       {/* rewrite with gemini */}
-      <Tooltip content="Re-write" className='text-black' placement='bottom' background="white" color="secondary" >
-       <Button
-       type='button'
-       onClick={()=>rewrite(editorContent)}
-      
-       ><i className="ri-gemini-fill text-[20px] text-[#4796E3] transition duration-300  ml-2"></i></Button>
-      </Tooltip>
-
-   
+    <div className="note-composer">
+      <div className="composer-field composer-title-field">
+        <input
+          id="note-title"
+          type="text"
+          placeholder="Give this thought a name"
+          className="w-full bg-transparent text-2xl font-semibold tracking-tight text-[var(--ink)] placeholder:text-[var(--muted)] sm:text-3xl"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
       </div>
 
-      {/* notes addition button */}
-      <button
-         type='button'
-          onClick={()=>{
-            notes.addNote(title , editorContent)
-            editor.commands.clearContent();
-            setTitle('')
-            setEditorContent('')
-            successToast()
-             }
-            }
-          > <Tooltip content="Add Note" className='text-black' placement='bottom'><i className="ri-add-large-fill  text-4xl  p-2 text-black"></i></Tooltip></button>
-          {/* toast addition  */}
+      <div className="composer-field composer-content-field">
+        <EditorContent editor={editor} />
+      </div>
+
+      <div className="composer-toolbar">
+        <div className="flex flex-wrap items-center gap-1">
+          {formatButtons.map((btn) => (
+            <Tooltip key={btn.label} content={btn.label} placement="bottom" className="text-[var(--ink)] bg-[var(--paper)] border border-[var(--line)] shadow-md font-sans text-xs">
+              <button
+                type="button"
+                onClick={btn.action}
+                className={`icon-btn ${btn.active ? 'active' : ''}`}
+                aria-label={btn.label}
+              >
+                <i className={`${btn.icon} text-base`} />
+              </button>
+            </Tooltip>
+          ))}
+
+          <div className="mx-1.5 h-4 w-px bg-[var(--line)]" />
+
+          <Tooltip content="Rewrite with AI" placement="bottom" className="text-[var(--ink)] bg-[var(--paper)] border border-[var(--line)] shadow-md font-sans text-xs">
+            <button
+              type="button"
+              onClick={() => rewrite(editorContent)}
+              disabled={rewriting}
+              className="icon-btn disabled:opacity-50"
+              aria-label="Rewrite with AI"
+            >
+              <i
+                className={`ri-gemini-fill text-base ${
+                  rewriting ? 'animate-pulse text-brand-500' : 'ai-shimmer-icon'
+                }`}
+              />
+            </button>
+          </Tooltip>
+          <span className="toolbar-hint">Make clearer</span>
+        </div>
+
+        <Tooltip content="Add note" placement="bottom" className="text-[var(--ink)] bg-[var(--paper)] border border-[var(--line)] shadow-md font-sans text-xs">
+          <button
+            type="button"
+            className="btn-add-note"
+            aria-label="Add note"
+            onClick={() => {
+              notes.addNote(title, editorContent)
+              editor.commands.clearContent()
+              setTitle('')
+              setEditorContent('')
+              successToast()
+            }}
+          >
+            <span>Save note</span><i className="ri-arrow-right-up-line" />
+          </button>
+        </Tooltip>
       </div>
     </div>
+  )
+}
 
-                
-
-    </div>
-  );
-};
-
-export default RichTextEditor;
+export default RichTextEditor

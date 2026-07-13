@@ -1,181 +1,232 @@
-import React, { useState } from 'react';
-import { useNotes } from '../context/NotesContext';
-import { GoogleGenAI } from "@google/genai";
-import {Tooltip, Button} from "@heroui/react";
-import {addToast} from "@heroui/react";
-import { ToastContainer, toast, Bounce} from 'react-toastify';
+import React, { useState } from 'react'
+import { useNotes } from '../context/NotesContext'
+import { GoogleGenAI } from '@google/genai'
+import { Tooltip } from '@heroui/react'
+import { toast, Bounce } from 'react-toastify'
 
-
-const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY });
+const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY })
 
 function DisplayNotes() {
-  
-  const [summaryId , setSummaryId] = useState(null);
-  const [summary , setSummary ] = useState("");
+  const [summaryId, setSummaryId] = useState(null)
+  const [summary, setSummary] = useState('')
+  const [summarizingId, setSummarizingId] = useState(null)
 
-  const { deleteNotes, notes, updateNote } = useNotes();
-  const [isEditableId, setIsEditableId] = useState(null); // currently editing note ID
-  const [editTitle, setEditTitle] = useState(""); // editing title
-  const [editContent, setEditContent] = useState(""); // editing content
-  
-  const summarizeNote = async(content, noteId) => {
-       // if statment is for toggle 
-       if(noteId === summaryId)
-       {
-          setSummaryId(null);
-          setSummary("");
-          return;
-       }
-    try{
-    const result = await ai.models.generateContent({
-    model: "gemini-2.0-flash",
-    contents: `Summarize this note : ${content}`,
-    
-  });
-     const summaryContent = await result.text;
-     console.log(summary);
-     setSummary(summaryContent)
-     setSummaryId(noteId);
+  const { deleteNotes, notes, updateNote } = useNotes()
+  const [isEditableId, setIsEditableId] = useState(null)
+  const [editTitle, setEditTitle] = useState('')
+  const [editContent, setEditContent] = useState('')
+
+  const summarizeNote = async (content, noteId) => {
+    if (noteId === summaryId) {
+      setSummaryId(null)
+      setSummary('')
+      return
     }
-    catch(error){
-       console.error(error);
+    setSummarizingId(noteId)
+    try {
+      const result = await ai.models.generateContent({
+        model: 'gemini-3.1-flash-lite',
+        contents: `Summarize this note : ${content}`,
+      })
+      const summaryContent = await result.text
+      setSummary(summaryContent)
+      setSummaryId(noteId)
+    } catch (error) {
+      console.error(error)
+      toast.error('Summary failed. Try again.', {
+        position: 'bottom-right',
+        autoClose: 2000,
+        theme: 'dark',
+        transition: Bounce,
+      })
+    } finally {
+      setSummarizingId(null)
     }
   }
 
   const deleteNote = (id) => {
-    deleteNotes(id);
-  };
-
-
-  // delete toast
+    deleteNotes(id)
+    if (summaryId === id) {
+      setSummaryId(null)
+      setSummary('')
+    }
+  }
 
   const deleteToast = () => {
-  toast.error('Note Deleted!', {
-    position: "bottom-right",
-    autoClose: 2000,
-    hideProgressBar: false,
-    closeOnClick: false,
-    pauseOnHover: false,
-    draggable: true,
-    progress: undefined,
-    theme: "dark",
-    transition: Bounce,
-  });
-};
+    toast.error('Note deleted', {
+      position: 'bottom-right',
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: false,
+      draggable: true,
+      theme: 'dark',
+      transition: Bounce,
+    })
+  }
 
-  // 🔧 Utility to strip HTML tags for editing plain text
   const stripHtmlTags = (html) => {
-    const div = document.createElement('div');
-    div.innerHTML = html;
-    return div.textContent || div.innerText || "";
-  };
+    const div = document.createElement('div')
+    div.innerHTML = html
+    return div.textContent || div.innerText || ''
+  }
+
+  if (!notes.length) {
+    return (
+      <div className="animate-fade-up mx-auto mt-4 max-w-2xl rounded-2xl border border-dashed border-[var(--line)] bg-[var(--paper)] px-6 py-16 text-center backdrop-blur-sm shadow-sm">
+        <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-[var(--accent-soft)] text-[var(--accent)] shadow-sm border border-[var(--line)]">
+          <i className="ri-sticky-note-line text-2xl" />
+        </div>
+        <h3 className="font-display text-lg font-semibold text-[var(--ink)]">
+          No notes yet
+        </h3>
+        <p className="mt-2 text-xs text-[var(--muted)] leading-relaxed">
+          Capture a thought above, fill in the title, then click the <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-brand-500/10 text-brand-500">+</span> button to create your first note.
+        </p>
+      </div>
+    )
+  }
 
   return (
-    <div className='sm:px-26 '>
-    <div className=' p-2 text-[0px] w-full h-screen bg-white'>
-      {notes.length !== 0 && <h2 className='mt-2 mb-4 text-black text-2xl'>Your Notes</h2>}
-      <div className="flex sm:gap-5 gap-1 flex-wrap">
-        {notes.length !== 0 && notes.map((note) => {
-          const isEdit = isEditableId === note.id;
+    <section className="animate-fade-up">
+      <div className="mb-6 flex items-center justify-between">
+        <div>
+          <h2 className="font-display text-xl font-bold tracking-tight text-[var(--ink)]">
+            Your notes
+          </h2>
+          <p className="text-xs text-[var(--muted)]">
+            {notes.length} {notes.length === 1 ? 'note' : 'notes'}
+          </p>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {notes.map((note, index) => {
+          const isEdit = isEditableId === note.id
+          const isSummarizing = summarizingId === note.id
+
           return (
-            <div
+            <article
               key={note.id}
-              className="text-black border-1  border-black/40 sm:w-[20vw] w-[49%] hover:border-black/80 flex flex-col  rounded-xl sm:p-4 p-2 backdrop-blur-md shadow-lg transition-all duration-300 transform hover:shadow-xl"
+              className="note-card min-h-[180px]"
+              style={{ animationDelay: `${index * 0.05}s` }}
             >
-              {/* display edit and non edit notes  */}
               {isEdit ? (
-                //  Edit mode
-                <div>
+                <div className="flex-1">
                   <input
                     type="text"
                     value={editTitle}
                     onChange={(e) => setEditTitle(e.target.value)}
-                    className='text-black font-semibold text-[20px] tracking-wide mb-2 border-b-2 border-black/40 bg-transparent w-full outline-none'
+                    className="font-display mb-2 w-full border-b border-[var(--line)] bg-transparent pb-1 text-lg font-semibold text-[var(--ink)] outline-none"
                   />
                   <textarea
                     value={editContent}
                     onChange={(e) => setEditContent(e.target.value)}
-                    className="text-black/80 text-sm leading-relaxed min-h-32 overflow-y-auto bg-transparent w-full outline-none resize-none"
-                    style={{ height: 'auto', minHeight: '128px' }}
-                  ></textarea>
+                    className="min-h-28 w-full resize-none bg-transparent text-sm leading-relaxed text-[var(--ink)] outline-none"
+                  />
                 </div>
               ) : (
-                //  Display mode
-                <div>
-                  <h2 className=" font-semibold text-lg tracking-wide mb-2 border-b-2 border-black/35">
-                    {note.title}
-                  </h2>
+                <div className="flex-1">
+                  <h3 className="font-display mb-2.5 border-b border-[var(--line)] pb-2 text-lg font-semibold tracking-tight text-[var(--ink)]">
+                    {note.title || 'Untitled'}
+                  </h3>
                   <div
-                    className="text-black/80 text-sm leading-snug sm:leading-relaxed overflow-y-auto"
+                    className="prose-sm max-h-40 overflow-y-auto text-sm leading-relaxed text-[var(--muted)]"
                     style={{ wordWrap: 'break-word' }}
                     dangerouslySetInnerHTML={{ __html: note.content }}
                   />
                 </div>
               )}
 
-              {/*  Buttons */}
-              <br />
-
               {summaryId === note.id && summary && (
-                <div className='pb-4'>
-
-                  <h2 className='border-t-1 border-black/20 pt-2 pb-2  text-[18px] '>Summary</h2>
-                  
-                  <p className=' text-[15px]  bg-[#e3e0e0] rounded-l p-2.5'>{summary}</p>
+                <div className="mt-3 animate-fade-in">
+                  <div className="mb-1.5 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-[var(--accent)]">
+                    <i className="ri-sparkling-2-line animate-pulse" />
+                    Summary
+                  </div>
+                  <div className="summary-box text-xs leading-relaxed text-[var(--ink)]">
+                    {summary}
+                  </div>
                 </div>
               )}
-              <div className='flex gap-2 mt-auto justify-between'>
-                {/* edit button  */}
 
+              <div className="mt-4 flex items-center justify-between border-t border-[var(--line)] pt-3">
+                <div className="flex items-center gap-1">
+                  <Tooltip
+                    content={isEdit ? 'Save' : 'Edit'}
+                    placement="bottom"
+                    className="text-[var(--ink)] bg-[var(--paper)] border border-[var(--line)] shadow-md font-sans text-xs"
+                  >
+                    <button
+                      type="button"
+                      className="icon-btn"
+                      aria-label={isEdit ? 'Save' : 'Edit'}
+                      onClick={() => {
+                        if (isEdit) {
+                          updateNote(note.id, editTitle, editContent)
+                          setIsEditableId(null)
+                        } else {
+                          setIsEditableId(note.id)
+                          setEditTitle(note.title)
+                          setEditContent(stripHtmlTags(note.content))
+                        }
+                      }}
+                    >
+                      <i
+                        className={`${
+                          isEdit ? 'ri-save-line' : 'ri-edit-2-line'
+                        } text-base ${isEdit ? 'text-emerald-500' : 'text-brand-500'}`}
+                      />
+                    </button>
+                  </Tooltip>
 
-                 <div className='flex gap-3'>
-                <button
-                  type="button"
-                  className=' p-1  hover:opacity-50'
-                  onClick={() => {
-                    if (isEdit) {
-                      updateNote(note.id, editTitle, editContent);
-                      setIsEditableId(null);
-                    } else {
-                      setIsEditableId(note.id);
-                      setEditTitle(note.title);
-                      setEditContent(stripHtmlTags(note.content)); 
-                    }
-                  }}
-                >
-                  {isEdit ?<Tooltip content="Save" className='text-black' placement='bottom' background="black" ><i className="ri-save-line text-[20px] sm:text-2xl"></i></Tooltip>
-                  : <Tooltip content="Edit" className='text-black' placement='bottom' background="white" ><i className="ri-edit-2-line text-[20px] sm:text-2xl text-[#4796E3]"></i></Tooltip>}
-                </button>
-
-     
-
-                {/* summary button */}
-                <button className=' p-1 hover:opacity-50'
-                 onClick={() => summarizeNote(stripHtmlTags(note.content),note.id)} >
-                  {summaryId === note.id ?  <Tooltip content="Hide Summary" className='text-black' placement='bottom'><i className="ri-gemini-line text-[20px] sm:text-2xl text-[#9177C7]" ></i></Tooltip>: <Tooltip content="Summary" className='text-black' placement='bottom'><i class="ri-gemini-line text-[20px] sm:text-2xl" ></i></Tooltip> }
-                 </button>
-
+                  <Tooltip
+                    content={summaryId === note.id ? 'Hide summary' : 'Summarize'}
+                    placement="bottom"
+                    className="text-[var(--ink)] bg-[var(--paper)] border border-[var(--line)] shadow-md font-sans text-xs"
+                  >
+                    <button
+                      type="button"
+                      className="icon-btn"
+                      aria-label="Summarize"
+                      disabled={isSummarizing}
+                      onClick={() =>
+                        summarizeNote(stripHtmlTags(note.content), note.id)
+                      }
+                    >
+                      <i
+                        className={`ri-gemini-line text-base ${
+                          summaryId === note.id
+                            ? 'text-brand-500 font-bold'
+                            : isSummarizing
+                              ? 'animate-pulse text-brand-500'
+                              : 'text-[var(--muted)]'
+                        }`}
+                      />
+                    </button>
+                  </Tooltip>
                 </div>
 
-                   {/* delete button */}
+                <Tooltip content="Delete" placement="bottom" className="text-[var(--ink)] bg-[var(--paper)] border border-[var(--line)] shadow-md font-sans text-xs">
                   <button
-                  type='button'
-                  className='  hover:opacity-50'
-                  onClick={() => {
-                    deleteNote(note.id) 
-                    deleteToast()}}
-                   >
-                  <Tooltip content="Delete" className='text-black' placement='bottom'><i className="ri-delete-bin-7-line text-[20px] sm:text-2xl text-red-400 "></i></Tooltip>
-                </button>
+                    type="button"
+                    className="icon-btn hover:!bg-rose-500/10 hover:!text-rose-500"
+                    aria-label="Delete"
+                    onClick={() => {
+                      deleteNote(note.id)
+                      deleteToast()
+                    }}
+                  >
+                    <i className="ri-delete-bin-line text-base text-rose-500 dark:text-rose-400/90" />
+                  </button>
+                </Tooltip>
               </div>
-            </div>
-          );
+            </article>
+          )
         })}
       </div>
-
-    </div>
-    </div>
-  );
+    </section>
+  )
 }
 
-export default DisplayNotes;
+export default DisplayNotes

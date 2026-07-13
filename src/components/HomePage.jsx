@@ -1,76 +1,66 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useAuth } from '../context/AuthContext'
-import homeimage from"../assets/homeimage.png"
-import NotePage from './NotePage'; 
+
+const features = [
+  ['ri-magic-line', 'Refine your first draft', 'Turn rough thoughts into clear, considered writing while preserving your voice.'],
+  ['ri-file-list-3-line', 'Find the signal', 'Ask for a concise summary when a note grows longer than your attention span.'],
+  ['ri-shapes-line', 'A calm place to think', 'A private, distraction-free space for the ideas you want to keep.'],
+]
 
 function HomePage() {
-
- const {signIn , signOutUser , user} = useAuth();
-
-  
-
-
+  const { signIn } = useAuth()
 
   return (
-    <div className="bg-white  min-h-screen w-full   text-black">
-      <div className='sm:px-60 p-3'>
+    <div className="landing-page">
+      <section className="landing-hero">
+        <div className="hero-orb hero-orb-one" />
+        <div className="hero-orb hero-orb-two" />
+        <div className="landing-shell hero-layout">
+          <div className="hero-copy animate-fade-up">
+            <p className="eyebrow"><span /> A quieter way to work</p>
+            <h1>Make room for<br /><em>better thinking.</em></h1>
+            <p className="hero-description">Notes Gini is a focused writing space with a little intelligence exactly where you need it.</p>
+            <div className="hero-actions">
+              <button type="button" className="btn-primary" onClick={signIn}>Start writing <i className="ri-arrow-right-up-line" /></button>
+              <a href="#how-it-works" className="text-link">See how it works <i className="ri-arrow-down-line" /></a>
+            </div>
+            <div className="hero-proof"><i className="ri-shield-check-line" /> Private by default · Sign in with Google</div>
+          </div>
 
-     <div className=' flex justify-center '>
+          <div className="hero-preview animate-fade-up-delay-1" aria-hidden="true">
+            <div className="preview-topbar"><span className="preview-mark">N</span><span>Untitled note</span><i className="ri-more-2-fill" /></div>
+            <div className="preview-body">
+              <p className="preview-date">JULY 13, 2026</p>
+              <h2>Ideas for the<br />next small thing</h2>
+              <p>Keep the surface calm. Make the important moments feel intentional, not loud.</p>
+              <div className="preview-rule" />
+              <div className="preview-ai"><span><i className="ri-sparkling-2-fill" /> AI assist</span><p>Ready to make this clearer whenever you are.</p></div>
+            </div>
+            <div className="preview-float"><i className="ri-magic-line" /> Refined with AI</div>
+          </div>
+        </div>
+      </section>
 
-     <div
-     className=" sm:h-[60vh] sm:w-[70vw] h-[55vh] w-[100vw] bg-cover bg-center p-3 rounded-2xl sm:mt-10 mt-5 flex items-center justify-center"
-     style={{ backgroundImage: `url(${homeimage})` }}
-      >
-       <div className='text-center'>
-       <h1 className='sm:text-[60px] text-[200%] text-white font-bold'>Your Smart Note-Taking Companion</h1>
-       <h2 className='sm:text-[22px] text-[100%] text-white/75'>Enhance your note taking with AI powered features. Rewrite, summarize, and organize your thoughts effortlessly.</h2>
-       <button className='mt-8 text-[18px] cursor-pointer  text-black py-3 font-medium px-6 rounded-[12px] bg-[#DDE7F2] hover:bg-[#afcbe6]'
-         onClick={() => signIn()}
-       >Start Taking Notes</button>
-       </div>
-     </div>
+      <section className="landing-section" id="how-it-works">
+        <div className="landing-shell">
+          <div className="section-heading"><p className="eyebrow"><span /> Made for momentum</p><h2>Everything has a reason<br />to be here.</h2></div>
+          <div className="feature-grid">
+            {features.map(([icon, title, description], index) => (
+              <article className="feature-card" key={title}><span className="feature-number">0{index + 1}</span><i className={icon} /><h3>{title}</h3><p>{description}</p></article>
+            ))}
+          </div>
+        </div>
+      </section>
 
-     </div>
-       <h1 className="text-4xl font-bold text-black mt-15">Key Features</h1>
-       <h2 className='mt-3'>Explore the powerful capabilities of Notes Gini designed to boost your productivity and creativity.</h2>
-          {/* cards  */}
-       <div className='mt-10 mb-20 flex flex-wrap gap-4'>
-              {/* //card 1  */}
-              <div className='border-1 border-black/40 p-4 sm:w-[22vw]  rounded-2xl hover:shadow-lg transition-shadow duration-300 hover:border-black/70'>
-                <h1><i className="ri-quill-pen-ai-fill text-2xl"></i></h1>
-                <h1 className='mt-2 mb-2 font-bold'>AI Rewriting</h1>
-                <div><p className='text-black/50 '>Enhance the quality of your notes effortlessly using advanced AI-powered rewriting tools. These tools help you improve clarity, correct grammatical issues, and elevate the overall tone and structure of your content—making your writing more impactful and easier to understand.</p></div>
-              </div>
+      <section className="landing-section landing-cta">
+        <div className="landing-shell cta-card">
+          <div><p className="eyebrow"><span /> Your ideas, uninterrupted</p><h2>Start with one<br /><em>good note.</em></h2></div>
+          <button type="button" className="btn-primary" onClick={signIn}>Create your workspace <i className="ri-arrow-right-up-line" /></button>
+        </div>
+      </section>
 
-              {/* card 2 */}
-
-               <div className='border-1 border-black/40 p-4 sm:w-[22vw]  rounded-2xl hover:shadow-lg transition-shadow duration-300 hover:border-black/70'>
-                <h1><i class="ri-sticky-note-line text-2xl"></i></h1>
-                <h1 className='mt-2 mb-2 font-bold'>Smart Summaries</h1>
-                <div><p className='text-black/50 '>Quickly generate clear and concise summaries from your notes using intelligent AI tools. These summaries emphasize the most important information, highlight key takeaways, and extract actionable items—helping you focus on what truly matters and stay organized.</p></div>
-              </div>
-
-
-              {/* card 3 */}
-               <div className='border-1 border-black/40 p-4 sm:w-[20vw] rounded-2xl hover:shadow-lg transition-shadow duration-300 hover:border-black/70' >
-                <h1><i class="ri-book-shelf-line text-2xl"></i></h1>
-                <h1 className='mt-2 mb-2 font-bold'>Organized Notes</h1>
-                <div><p className='text-black/50 '>Effortlessly maintain a well-structured and organized note system using user-friendly notebooks, customizable tags, and powerful search capabilities. These features make it easy to categorize your content, quickly locate specific information, and manage your notes efficiently, no matter how much you’ve written.</p></div>
-              </div>
-
-       </div>
-
-       
-     </div>
-       <footer className='border-t-1 border-black/20 p-4 text-center '>
-         <div className='flex justify-evenly mt-10 mb-8'>
-          <h2>Privacy Policy</h2>
-          <h2>Terms of Service</h2>
-          <h2>Contact Us</h2>
-         </div>
-         <h2 className='mb-10'><i className="ri-copyright-line"></i>2025 Notes Gini. All rights reserved.</h2>
-       </footer>
-       </div>
+      <footer className="landing-footer"><div className="landing-shell"><span className="brand-wordmark"><b>N</b> notesgini</span><span>© {new Date().getFullYear()} Notes Gini</span></div></footer>
+    </div>
   )
 }
 
