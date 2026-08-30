@@ -10,22 +10,24 @@ function NotePage() {
 
   if (user == null) {
     return (
-      <div className="flex min-h-[75vh] flex-col items-center justify-center px-4 text-center">
-        <div className="animate-fade-up signin-gate max-w-sm px-8 py-12">
-          <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-[var(--accent-soft)] text-[var(--accent)]">
-            <i className="ri-lock-2-line text-2xl" />
+      <div className="flex min-h-[80vh] flex-col items-center justify-center px-4 py-12 text-center">
+        <div className="max-w-sm w-full p-8 rounded-lg bg-[var(--bg-card)] border border-[var(--border-main)] animate-fade-in">
+          <div className="mx-auto mb-4 flex h-10 w-10 items-center justify-center rounded border border-[var(--border-main)] bg-[var(--bg-subtle)] text-[var(--text-primary)]">
+            <i className="ri-lock-line text-lg" />
           </div>
-          <h1 className="font-serif text-3xl">Your space is waiting</h1>
-          <p className="mt-3 text-sm leading-relaxed text-[var(--muted)]">
-            Your notes workspace is private. Please sign in securely with Google to create, edit, and access Gemini AI writing features.
+          <h1 className="text-xl font-bold tracking-tight text-[var(--text-primary)]">
+            Sign in to Workspace
+          </h1>
+          <p className="mt-2 text-xs leading-relaxed text-[var(--text-secondary)]">
+            Your notes and Gemini AI refinements are private. Sign in with Google to access your cloud-synced notes.
           </p>
           <button
             type="button"
-            className="btn-primary mt-8 w-full flex items-center justify-center gap-2"
+            className="btn-primary mt-6 w-full flex items-center justify-center gap-2"
             onClick={() => signIn()}
           >
-            <i className="ri-google-fill text-lg" />
-            Sign in with Google
+            <i className="ri-google-fill text-sm" />
+            <span>Continue with Google</span>
           </button>
         </div>
       </div>
@@ -33,8 +35,7 @@ function NotePage() {
   }
 
   return (
-    <div className="workspace">
-
+    <div className="workspace-container">
       <NoteEditor />
       <DisplayNotes />
 
