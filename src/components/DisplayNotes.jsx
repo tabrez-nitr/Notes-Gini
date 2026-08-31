@@ -1,10 +1,8 @@
 import React, { useState } from 'react'
 import { useNotes } from '../context/NotesContext'
-import { GoogleGenAI } from '@google/genai'
 import { Tooltip } from '@heroui/react'
 import { toast, Bounce } from 'react-toastify'
-
-const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY })
+import { generateGeminiContent } from '../services/aiService'
 
 function DisplayNotes() {
   const { deleteNotes, notes, updateNote } = useNotes()
@@ -46,11 +44,9 @@ function DisplayNotes() {
 
     setSummarizingId(noteId)
     try {
-      const result = await ai.models.generateContent({
-        model: 'gemini-3.1-flash-lite',
-        contents: `Provide a concise 2-3 sentence executive summary of this note:\n\n${cleanContent}`,
-      })
-      const summaryText = result.text.trim()
+      const summaryText = await generateGeminiContent(
+        `Provide a concise 2-3 sentence executive summary of this note:\n\n${cleanContent}`
+      )
       setSummary(summaryText)
       setSummaryId(noteId)
     } catch (error) {

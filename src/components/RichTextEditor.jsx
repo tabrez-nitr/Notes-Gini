@@ -4,11 +4,9 @@ import Placeholder from '@tiptap/extension-placeholder'
 import Underline from '@tiptap/extension-underline'
 import { useState, useEffect } from 'react'
 import { useNotes } from '../context/NotesContext'
-import { GoogleGenAI } from '@google/genai'
 import { Tooltip } from '@heroui/react'
 import { toast, Bounce } from 'react-toastify'
-
-const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY })
+import { generateGeminiContent } from '../services/aiService'
 
 const RichTextEditor = ({ content, onChange, initialTitle = '', onSaved }) => {
   const [title, setTitle] = useState(initialTitle)
@@ -63,11 +61,9 @@ const RichTextEditor = ({ content, onChange, initialTitle = '', onSaved }) => {
 
     setRewriting(true)
     try {
-      const result = await ai.models.generateContent({
-        model: 'gemini-3.1-flash-lite',
-        contents: `Rewrite and polish this note to be concise, clear, and well-structured with formatting if appropriate, in under 60 words: ${cleanText}`,
-      })
-      const polishedText = result.text.trim()
+      const polishedText = await generateGeminiContent(
+        `Rewrite and polish this note to be concise, clear, and well-structured with formatting if appropriate, in under 60 words: ${cleanText}`
+      )
       editor.commands.setContent(polishedText)
       setEditorContent(polishedText)
       if (onChange) onChange(polishedText)
